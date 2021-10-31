@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/static/blog/css/bootstrap.css">
+</head>
+<body>
+登录
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-lg-offset-3">
+            <form action="">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="username">用户名</label>
+                    <input type="text" id="username" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="password">密码</label>
+                    <input type="password" id="password" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="">验证码</label>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="valid_code">
+                        </div>
+                        <div class="col-md-6">
+                            <img width="270" height="40" id="valid_code_img" src="/get_valid_code_image/" alt="">
+                        </div>
+                    </div>
+                </div>
+                <input type="button" class="btn btn-primary login_btn" value="submit"><span class="error"></span>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="/static/js/jquery-3.6.0.min.js"></script>
+
+<script>
+    // 刷新验证码
+    $("#valid_code_img").click(function () {
+        $(this)[0].src += "?"
+    });
+
+    // 登录验证
+    $(".login_btn").click(function () {
+        $.ajax({
+            url: "",
+            type: "post",
+            data: {
+                username: $("#username").val(),
+                password: $("#password").val(),
+                valid_code: $("#valid_code").val(),
+                csrfmiddlewaretoken: $("[name='csrfmiddlewaretoken']").val(),
+            },
+            success: function (data) {
+                if (data.user) {
+                    location.href="/index/"
+                }
+                else {
+                    $(".error").text(data.msg).css({"color": "red", "margin-left": "10px"})
+                }
+            }
+        })
+    });
+</script>
+</body>
+</html>
