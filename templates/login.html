@@ -31,7 +31,8 @@
                         </div>
                     </div>
                 </div>
-                <input type="button" class="btn btn-primary login_btn" value="submit"><span class="error"></span>
+                <input type="button" class="btn btn-primary login_btn" value="登录"><span class="error"></span>
+                <a href="/register" class="btn btn-warning float-right">注册</a>
             </form>
         </div>
     </div>
@@ -62,6 +63,9 @@
                 }
                 else {
                     $(".error").text(data.msg).css({"color": "red", "margin-left": "10px"})
+                    setTimeout(function () {
+                        $(".error").text("")
+                    }, 1000)
                 }
             }
         })
